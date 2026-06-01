@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12 text-gray-300 leading-relaxed">
+    <div class="text-sm text-gray-500 mb-4">
+        <a href="/" class="hover:text-indigo-400">Home</a> &gt; <span class="text-gray-400">Guides</span> &gt; VLSM Tutorial
+    </div>
+
+    <h1 class="text-4xl font-extrabold text-white mb-6 tracking-tight">The Ultimate Guide to Variable Length Subnet Masking (VLSM)</h1>
+    
+    <p class="text-lg text-gray-400 mb-8 font-light">
+        Variable Length Subnet Masking (VLSM) is one of the foundational building blocks of modern network design. If you are preparing for your CCNA exam or designing a production corporate network, mastering VLSM is essential for avoiding wasted IP addresses.
+    </p>
+
+    <hr class="border-gray-800 my-8">
+
+    <h2 class="text-2xl font-bold text-white mb-4">What is VLSM and Why Do We Need It?</h2>
+    <p class="mb-4">
+        In traditional Fixed-Length Subnet Masking (FLSM), every single subnet in your architecture is forced to be the exact same size. For example, if you divide a Class C network into blocks of /26, every subnet gets exactly 62 usable host addresses.
+    </p>
+    <p class="mb-6">
+        But what happens if your corporate headquarters has a LAN with 50 users, a branch office with 10 users, and a point-to-point WAN link connecting them that only needs 2 IP addresses? Under FLSM, you waste 60 IP addresses on that tiny WAN link! **VLSM solves this by allowing you to subnet a subnet**, allocating different mask lengths to different segments based on actual need.
+    </p>
+
+    <div class="bg-gray-900 border-l-4 border-indigo-500 p-4 rounded mb-8">
+        <p class="text-sm font-semibold text-white">🔑 Key Takeaway:</p>
+        <p class="text-sm italic">Always allocate your largest subnets first when designing a network layout using VLSM. Working from largest to smallest prevents overlapping IP blocks.</p>
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-4">Step-by-Step VLSM Calculation Example</h2>
+    <p class="mb-4">
+        Let's allocate a base network block of <strong>192.168.1.0/24</strong> for the following requirements:
+    </p>
+    
+    <ul class="list-disc pl-6 mb-6 space-y-2">
+        <li><strong>LAN A (Sales):</strong> 100 Hosts</li>
+        <li><strong>LAN B (Support):</strong> 50 Hosts</li>
+        <li><strong>WAN Link:</strong> 2 Hosts</li>
+    </ul>
+
+    <h3 class="text-xl font-semibold text-white mt-6 mb-2">Step 1: Satisfy the Largest Requirement (LAN A - 100 Hosts)</h3>
+    <p class="mb-4">
+        To host 100 people, we need a subnet size that accommodates them. A <code class="bg-gray-800 px-1 rounded text-indigo-300">/25</code> mask provides $2^7 - 2 = 126$ usable host addresses. 
+    </p>
+    <p class="mb-6 pl-4 border-l-2 border-gray-700">
+        • <strong>Subnet Address:</strong> 192.168.1.0/25<br>
+        • <strong>Usable IP Range:</strong> 192.168.1.1 to 192.168.1.126<br>
+        • <strong>Broadcast Address:</strong> 192.168.1.127
+    </p>
+
+    <h3 class="text-xl font-semibold text-white mt-6 mb-2">Step 2: Subnet the Remaining Space (LAN B - 50 Hosts)</h3>
+    <p class="mb-4">
+        Our next available address block starts right after the previous broadcast, at 192.168.1.128. For 50 hosts, a <code class="bg-gray-800 px-1 rounded text-indigo-300">/26</code> mask gives us $2^6 - 2 = 62$ usable addresses.
+    </p>
+    <p class="mb-6 pl-4 border-l-2 border-gray-700">
+        • <strong>Subnet Address:</strong> 192.168.1.128/26<br>
+        • <strong>Usable IP Range:</strong> 192.168.1.129 to 192.168.1.190<br>
+        • <strong>Broadcast Address:</strong> 192.168.1.191
+    </p>
+
+    <h3 class="text-xl font-semibold text-white mt-6 mb-2">Step 3: Handle the WAN Link (2 Hosts)</h3>
+    <p class="mb-4">
+        The next block starts at 192.168.1.192. Point-to-point router links only need 2 IPs, so we use a tight <code class="bg-gray-800 px-1 rounded text-indigo-300">/30</code> mask ($2^2 - 2 = 2$ usable addresses).
+    </p>
+    <p class="mb-6 pl-4 border-l-2 border-gray-700">
+        • <strong>Subnet Address:</strong> 192.168.1.192/30<br>
+        • <strong>Usable IP Range:</strong> 192.168.1.193 to 192.168.1.194<br>
+        • <strong>Broadcast Address:</strong> 192.168.1.195
+    </p>
+
+    <h2 class="text-2xl font-bold text-white mt-8 mb-4">Accelerate Your Configurations</h2>
+    <p class="mb-6">
+        Calculating this manually during an active configuration or tight engineering exam can burn valuable time. If you want to cross-verify your production architectures quickly, head back to our interactive <a href="/guides/vlsm" class="text-indigo-400 hover:underline font-semibold">VLSM Calculator Engine</a> to generate complete addressing charts instantly.
+    </p>
+</div>
+{% endblock %}
