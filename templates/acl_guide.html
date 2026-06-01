@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12 text-gray-300">
+    <h1 class="text-3xl font-bold text-white mb-6">Access Control List (ACL) Deployment Guide</h1>
+    <p class="text-sm text-indigo-400 mb-8">Understanding Standard, Extended, and Named ACL Frameworks</p>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold text-white mb-4">1. What is an ACL?</h2>
+        <p class="mb-4">An Access Control List (ACL) is a sequential collection of permit or deny statements applied to an interface. It filters network traffic based on parameters like source IP, destination IP, or port numbers, serving as a primary line of defense in network architecture.</p>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold text-white mb-4">2. Standard vs. Extended ACLs</h2>
+        <p class="mb-4">Choosing the wrong type of list can accidentally choke your entire network segment. Remember these rules:</p>
+        <ul class="list-disc pl-6 mb-4 space-y-2">
+            <li><strong>Standard ACLs (1-99):</strong> Only inspect the source IP address. Place them as close to the <strong>destination</strong> as possible.</li>
+            <li><strong>Extended ACLs (100-199):</strong> Inspect source, destination, protocol types, and layer 4 port numbers. Place them as close to the <strong>source</strong> as possible.</li>
+        </ul>
+        <blockquote class="border-l-4 border-red-500 bg-gray-800 p-4 my-4 rounded">
+            <strong>Important:</strong> Every ACL has an invisible statement at the absolute bottom: <code>deny any</code>. If traffic doesn't explicitly match a permit rule, it gets dropped immediately.
+        </blockquote>
+    </section>
+</div>
+{% endblock %}

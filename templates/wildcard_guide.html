@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12 text-gray-300">
+    <h1 class="text-3xl font-bold text-white mb-6">Demystifying Wildcard Masks</h1>
+    <p class="text-sm text-indigo-400 mb-8">How OSPF, EIGRP, and ACLs Read Inverted Subnet Masks</p>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold text-white mb-4">1. What is a Wildcard Mask?</h2>
+        <p class="mb-4">Wildcard masks tell a routing process or an ACL block which bits of an IP address to care about and which bits to completely ignore. Unlike subnet masks where binary 1s indicate a match, wildcard masks use binary 0s to represent strict matching rules.</p>
+        <ul class="list-disc pl-6 mb-4 space-y-2">
+            <li><strong>Binary 0:</strong> Check this bit. It must match perfectly.</li>
+            <li><strong>Binary 1:</strong> Ignore this bit. It can be a 0 or a 1.</li>
+        </ul>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold text-white mb-4">2. The "Inversion" Shortcut</h2>
+        <p class="mb-4">For standard subnets, you can find the wildcard mask easily by subtracting your regular subnet mask from <code>255.255.255.255</code>.</p>
+        <div class="bg-gray-800 p-4 rounded font-mono text-sm max-w-md my-4">
+            &nbsp;&nbsp;255.255.255.255<br>
+            - 255.255.255.240  (Your Subnet Mask)<br>
+            ------------------<br>
+            =&nbsp;&nbsp;&nbsp;0.&nbsp;&nbsp;0.&nbsp;&nbsp;0.&nbsp;&nbsp;15  (Your Wildcard Mask)
+        </div>
+    </section>
+</div>
+{% endblock %}

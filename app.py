@@ -38,5 +38,13 @@ def guide_vlsm():
 def guide_subnetting():
     return render_template('guide_subnetting.html')
 
+@app.route('/guides/acl')
+def acl_guide():
+    return render_template('acl_guide.html')
+
+@app.route('/guides/wildcard')
+def wildcard_guide():
+    return render_template('wildcard_guide.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
