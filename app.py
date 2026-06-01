@@ -46,5 +46,9 @@ def acl_guide():
 def wildcard_guide():
     return render_template('wildcard_guide.html')
 
+@app.route('/ads.txt')
+def ads_txt():
+    return send_from_directory(os.path.abspath(os.path.dirname(__file__)), 'ads.txt')
+
 if __name__ == '__main__':
     app.run(debug=True)
