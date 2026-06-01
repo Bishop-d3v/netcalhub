@@ -26,5 +26,9 @@ def wildcard_calculator():
 def ip_binary_converter():
     return render_template('binary.html')
 
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
