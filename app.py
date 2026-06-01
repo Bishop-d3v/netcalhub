@@ -30,5 +30,13 @@ def ip_binary_converter():
 def privacy_policy():
     return render_template('privacy.html')
 
+@app.route('/guides/vlsm')
+def guide_vlsm():
+    return render_template('guide_vlsm.html')
+
+@app.route('/guides/subnetting')
+def guide_subnetting():
+    return render_template('guide_subnetting.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

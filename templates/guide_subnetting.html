@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12 text-gray-300 leading-relaxed">
+    <div class="text-sm text-gray-500 mb-4">
+        <a href="/" class="hover:text-indigo-400">Home</a> &gt; <span class="text-gray-400">Guides</span> &gt; Subnetting & CIDR Basics
+    </div>
+
+    <h1 class="text-4xl font-extrabold text-white mb-6 tracking-tight">IP Subnetting Fundamentals & CIDR Notation Explained</h1>
+    
+    <p class="text-lg text-gray-400 mb-8 font-light">
+        Subnetting is the process of splitting a large network into smaller, manageable sub-networks (subnets). Understanding how IP addresses interact with subnet masks and Classless Inter-Domain Routing (CIDR) is the single most critical skill for passing network administration exams.
+    </p>
+
+    <hr class="border-gray-800 my-8">
+
+    <h2 class="text-2xl font-bold text-white mb-4">The Anatomy of an IP Address</h2>
+    <p class="mb-4">
+        An IPv4 address consists of 32 bits divided into 4 octets (8 bits per octet). Every single IP address has two distinct parts:
+    </p>
+    <ul class="list-disc pl-6 mb-6 space-y-2">
+        <li><strong>Network ID:</strong> Identifies the specific street or neighborhood the network lives on.</li>
+        <li><strong>Host ID:</strong> Identifies the specific house or device sitting on that street.</li>
+    </ul>
+    <p class="mb-6">
+        The **subnet mask** is what draws the line in the sand between these two parts. Where there are 1s in binary, it represents the network; where there are 0s, it represents available host spaces.
+    </p>
+
+    <h2 class="text-2xl font-bold text-white mb-4">What is CIDR Notation?</h2>
+    <p class="mb-4">
+        Historically, networks were divided rigidly into Class A, B, and C. This wasted millions of addresses. In 1993, **Classless Inter-Domain Routing (CIDR)** was introduced to allow flexible allocation.
+    </p>
+    <p class="mb-6">
+        Instead of writing out a long mask like <code class="bg-gray-800 px-1 rounded text-indigo-300">255.255.255.0</code>, CIDR notation uses a forward slash followed by the exact count of network bits. For example, a mask of 255.255.255.0 has 24 continuous binary bits turned on, so it is cleanly written as <strong>/24</strong>.
+    </p>
+
+    <h2 class="text-2xl font-bold text-white mb-4">The Golden Formulas of Subnetting</h2>
+    <p class="mb-4">
+        When you are sitting in an exam room trying to figure out how many subnets or hosts you can fit inside a given mask range, you only need to memorize two simple algebraic formulas:
+    </p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <div class="bg-gray-900 border border-gray-800 p-4 rounded text-center">
+            <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold block mb-1">Number of Subnets</span>
+            <span class="text-2xl font-mono text-white">$2^n$</span>
+            <p class="text-xs text-gray-500 mt-2">where $n$ is the number of borrowed bits</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 p-4 rounded text-center">
+            <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold block mb-1">Usable Hosts per Subnet</span>
+            <span class="text-2xl font-mono text-white">$2^h - 2$</span>
+            <p class="text-xs text-gray-500 mt-2">where $h$ is the remaining host bits</p>
+        </div>
+    </div>
+
+    <blockquote class="bg-gray-900 border-l-4 border-amber-500 p-4 rounded mb-8 text-sm italic">
+        <strong>⚠️ Why do we subtract 2 from the host calculation?</strong> On every subnet, two addresses are legally reserved: the very first address (which acts as the Network Identifier address) and the absolute last address (which serves as the Broadcast address for sending data packets to all nodes simultaneously). You cannot assign these to real PCs or servers!
+    </blockquote>
+
+    <h2 class="text-2xl font-bold text-white mb-4">A Practical Cheat Sheet</h2>
+    <div class="overflow-x-auto mb-8">
+        <table class="w-full text-left border-collapse border border-gray-800 text-sm">
+            <thead>
+                <tr class="bg-gray-900 text-white border-b border-gray-800">
+                    <th class="p-3 border-r border-gray-800">CIDR Mask</th>
+                    <th class="p-3 border-r border-gray-800">Subnet Mask</th>
+                    <th class="p-3 border-r border-gray-800">Total Usable Hosts</th>
+                    <th class="p-3">Block Size (Increment)</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-800">
+                <tr><td class="p-3 border-r border-gray-800 font-mono">/24</td><td class="p-3 border-r border-gray-800 font-mono">255.255.255.0</td><td class="p-3 border-r border-gray-800">254</td><td class="p-3 font-mono">256</td></tr>
+                <tr><td class="p-3 border-r border-gray-800 font-mono">/25</td><td class="p-3 border-r border-gray-800 font-mono">255.255.255.128</td><td class="p-3 border-r border-gray-800">126</td><td class="p-3 font-mono">128</td></tr>
+                <tr><td class="p-3 border-r border-gray-800 font-mono">/26</td><td class="p-3 border-r border-gray-800 font-mono">255.255.255.192</td><td class="p-3 border-r border-gray-800">62</td><td class="p-3 font-mono">64</td></tr>
+                <tr><td class="p-3 border-r border-gray-800 font-mono">/27</td><td class="p-3 border-r border-gray-800 font-mono">255.255.255.224</td><td class="p-3 border-r border-gray-800">30</td><td class="p-3 font-mono">32</td></tr>
+                <tr><td class="p-3 border-r border-gray-800 font-mono">/28</td><td class="p-3 border-r border-gray-800 font-mono">255.255.255.240</td><td class="p-3 border-r border-gray-800">14</td><td class="p-3 font-mono">16</td></tr>
+                <tr><td class="p-3 border-r border-gray-800 font-mono">/30</td><td class="p-3 border-r border-gray-800 font-mono">255.255.255.252</td><td class="p-3 border-r border-gray-800">2</td><td class="p-3 font-mono">4</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p class="mb-6">
+        Want to calculate custom parameters instantly without counting complex binary string splits manually? Use our fully responsive <a href="/subnet" class="text-indigo-400 hover:underline font-semibold">Subnet Calculator Engine</a> to safely break down inputs in real time.
+    </p>
+</div>
+{% endblock %}
