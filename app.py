@@ -48,7 +48,7 @@ def wildcard_guide():
 
 @app.route('/ads.txt')
 def ads_txt():
-    return send_from_directory(os.path.abspath(os.path.dirname(__file__)), 'ads.txt')
+    return app.send_static_file('ads.txt')
 
 if __name__ == '__main__':
     app.run(debug=True)
