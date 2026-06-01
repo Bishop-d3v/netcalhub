@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}VLSM Calculator - NetCalcHub{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto bg-gray-800 p-8 rounded-lg border border-gray-700 shadow-md">
+    <h2 class="text-2xl font-bold mb-4 text-white text-center">VLSM Calculator</h2>
+    
+    <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="col-span-2">
+            <label class="block text-sm mb-2 font-medium">Base IP Address</label>
+            <input id="baseIp" type="text" value="192.168.0.0" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white outline-none">
+        </div>
+        <div>
+            <label class="block text-sm mb-2 font-medium">Base Prefix</label>
+            <input id="basePrefix" type="number" value="24" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white outline-none">
+        </div>
+    </div>
+
+    <div class="mb-6">
+        <label class="block text-sm mb-2 font-medium">Required Hosts (Comma-separated, e.g., 50, 20, 10, 2)</label>
+        <input id="hostsInput" type="text" value="50, 30, 10, 2" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white outline-none">
+    </div>
+
+    <button onclick="calculateVLSM()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition">Generate VLSM Subnets</button>
+
+    <div id="vlsmResults" class="mt-8 hidden overflow-x-auto">
+        <table class="w-full text-left font-mono text-sm border-collapse border border-gray-700 bg-gray-900 text-gray-300">
+            <thead>
+                <tr class="bg-gray-800 text-white">
+                    <th class="p-3 border border-gray-700">Subnet Name</th>
+                    <th class="p-3 border border-gray-700">Requested</th>
+                    <th class="p-3 border border-gray-700">Allocated</th>
+                    <th class="p-3 border border-gray-700">Network/CIDR</th>
+                    <th class="p-3 border border-gray-700">Usable Range</th>
+                </tr>
+            </thead>
+            <tbody id="vlsmRows"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function ipToLong(ip) { return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0; }
+function longToIp(long) { return [(long >>> 24) & 255, (long >>> 16) & 255, (long >>> 8) & 255, long & 255].join('.'); }
+
+function calculateVLSM() {
+    let currentLong = ipToLong(document.getElementById('baseIp').value);
+    const hostRequirements = document.getElementById('hostsInput').value.split(',')
+        .map(x => parseInt(x.trim())).filter(x => !isNaN(x)).sort((a,b) => b-a);
+
+    const tbody = document.getElementById('vlsmRows');
+    tbody.innerHTML = '';
+
+    hostRequirements.forEach((req, idx) => {
+        let neededSize = req + 2; 
+        let power = Math.ceil(Math.log2(neededSize));
+        if(power < 2) power = 2;
+        let allocated = Math.pow(2, power) - 2;
+        let prefix = 32 - power;
+
+        let netStr = longToIp(currentLong) + "/" + prefix;
+        let startUsable = longToIp(currentLong + 1);
+        let endUsable = longToIp(currentLong + allocated);
+        
+        tbody.innerHTML += `
+            <tr class="border-b border-gray-800 hover:bg-gray-800/50">
+                <td class="p-3 border border-gray-700 text-indigo-400">Subnet_${idx+1}</td>
+                <td class="p-3 border border-gray-700">${req}</td>
+                <td class="p-3 border border-gray-700">${allocated}</td>
+                <td class="p-3 border border-gray-700 font-bold text-white">${netStr}</td>
+                <td class="p-3 border border-gray-700 text-emerald-400">${startUsable} - ${endUsable}</td>
+            </tr>`;
+        
+        currentLong += Math.pow(2, power);
+    });
+    document.getElementById('vlsmResults').classList.remove('hidden');
+}
+</script>
+{% endblock %}

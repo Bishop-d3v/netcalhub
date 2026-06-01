@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NetCalcHub - Free Networking Tools{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 flex flex-col min-span-screen min-h-screen">
+
+    <nav class="bg-gray-800 border-b border-gray-700 shadow-lg">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-indigo-400 tracking-wide">NetCalc<span class="text-white">Hub</span></a>
+            <div class="space-x-1 md:space-x-4 text-sm font-medium">
+                <a href="/subnet-calculator" class="hover:text-indigo-400 px-2 py-1">Subnet</a>
+                <a href="/vlsm-calculator" class="hover:text-indigo-400 px-2 py-1">VLSM</a>
+                <a href="/acl-generator" class="hover:text-indigo-400 px-2 py-1">ACL</a>
+                <a href="/wildcard-calculator" class="hover:text-indigo-400 px-2 py-1">Wildcard</a>
+                <a href="/ip-binary-converter" class="hover:text-indigo-400 px-2 py-1">Binary</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 border-t border-gray-700 py-6 text-center text-gray-400 text-sm">
+        <p>&copy; 2026 NetCalcHub. Built for Network Engineers & CCNA Students.</p>
+    </footer>
+
+</body>
+</html>

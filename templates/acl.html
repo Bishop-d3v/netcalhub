@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Cisco ACL Generator - NetCalcHub{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-gray-800 p-8 rounded-lg border border-gray-700 shadow-md">
+    <h2 class="text-2xl font-bold mb-6 text-white text-center">Cisco Extended ACL Generator</h2>
+    
+    <div class="space-y-4">
+        <div>
+            <label class="block text-sm mb-2 font-medium">Action</label>
+            <select id="aclAction" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white">
+                <option value="permit">Permit</option>
+                <option value="deny">Deny</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm mb-2 font-medium">Protocol</label>
+            <select id="aclProto" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white">
+                <option value="ip">IP (All Traffic)</option>
+                <option value="tcp">TCP</option>
+                <option value="udp">UDP</option>
+                <option value="icmp">ICMP</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm mb-2 font-medium">Source Network / IP (or 'any')</label>
+            <input id="aclSrc" type="text" value="192.168.1.0 0.0.0.255" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white font-mono">
+        </div>
+        <div>
+            <label class="block text-sm mb-2 font-medium">Destination Network / IP (or 'any')</label>
+            <input id="aclDst" type="text" value="any" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white font-mono">
+        </div>
+    </div>
+
+    <button onclick="generateACL()" class="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition">Generate Command</button>
+
+    <div id="aclResult" class="mt-8 hidden">
+        <label class="block text-sm mb-2 text-gray-400">IOS Command Output:</label>
+        <div class="bg-gray-900 p-4 rounded font-mono border border-gray-700 text-emerald-400 select-all cursor-pointer" title="Click to select all">
+            <span id="aclOutput"></span>
+        </div>
+    </div>
+</div>
+
+<script>
+function generateACL() {
+    const action = document.getElementById('aclAction').value;
+    const proto = document.getElementById('aclProto').value;
+    const src = document.getElementById('aclSrc').value.trim();
+    const dst = document.getElementById('aclDst').value.trim();
+
+    const cmd = `access-list 101 ${action} ${proto} ${src} ${dst}`;
+    document.getElementById('aclOutput').innerText = cmd;
+    document.getElementById('aclResult').classList.remove('hidden');
+}
+</script>
+{% endblock %}

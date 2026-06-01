@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}IPv4 to Binary Converter - NetCalcHub{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-gray-800 p-8 rounded-lg border border-gray-700 shadow-md">
+    <h2 class="text-2xl font-bold mb-6 text-white text-center">IPv4 &harr; Binary Converter</h2>
+    
+    <div class="mb-6">
+        <label class="block text-sm mb-2 font-medium">Standard IPv4 Address</label>
+        <input id="ipInput" type="text" value="192.168.1.50" oninput="convertToBin()" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white font-mono text-lg">
+    </div>
+
+    <div class="mt-8 bg-gray-900 p-6 rounded border border-gray-700 space-y-4">
+        <div>
+            <span class="text-xs text-indigo-400 uppercase block font-semibold mb-2">Binary Presentation</span>
+            <div id="binaryOutput" class="font-mono text-lg tracking-widest text-white flex justify-between flex-wrap gap-2">
+                </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function convertToBin() {
+    const ip = document.getElementById('ipInput').value.trim();
+    const parts = ip.split('.');
+    const outputDiv = document.getElementById('binaryOutput');
+    
+    if(parts.length !== 4 || parts.some(p => p === '' || isNaN(p) || p < 0 || p > 255)) {
+        outputDiv.innerHTML = `<span class="text-red-400 text-sm">Parsing valid IPv4 network decimals...</span>`;
+        return;
+    }
+
+    outputDiv.innerHTML = parts.map(p => {
+        let binStr = parseInt(p, 10).toString(2).padStart(8, '0');
+        return `<span class="bg-gray-800 px-3 py-1 rounded border border-gray-700">${binStr}</span>`;
+    }).join('<span class="text-gray-600 font-bold flex items-center">.</span>');
+}
+// Run initialization
+document.addEventListener("DOMContentLoaded", convertToBin);
+</script>
+{% endblock %}

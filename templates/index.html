@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}NetCalcHub - Free Networking Calculators & Tools{% endblock %}
+
+{% block content %}
+<div class="text-center max-w-4xl mx-auto my-16 px-4">
+    <span class="bg-indigo-900/50 text-indigo-400 border border-indigo-700/50 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+        Built for CCNA, CCNP, and Network Pros
+    </span>
+    <h1 class="text-4xl md:text-6xl font-extrabold text-white mt-4 mb-6 tracking-tight leading-tight">
+        The Ultimate Fast & Free <br>
+        <span class="bg-gradient-to-r from-indigo-400 to-emerald-400 bg-clip-text text-transparent">Network Toolkit</span>
+    </h1>
+    <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+        Stop wasting time with slow, ad-heavy legacy calculators. Get instant subnet allocations, ACL generations, and binary conversions.
+    </p>
+</div>
+
+<div class="mb-20">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+        <div>
+            <h2 class="text-2xl font-bold text-white">Core Networking Calculators</h2>
+            <p class="text-gray-400 text-sm mt-1">Select a tool below to begin calculations instantly in your browser.</p>
+        </div>
+        <div class="text-sm text-indigo-400 hidden md:block font-mono">5 Tools Online • 100% Client-Side</div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="group bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-md transition-all duration-200 hover:-translate-y-1 hover:border-indigo-500 hover:shadow-indigo-500/10">
+            <div class="w-10 h-10 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                /
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-white group-hover:text-indigo-400 transition-colors">IPv4 Subnet Calculator</h3>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">Calculate network & broadcast addresses, usable host ranges, and full CIDR notation breakdowns instantly.</p>
+            <a href="/subnet-calculator" class="inline-flex items-center text-sm font-semibold text-indigo-400 group-hover:text-indigo-300">
+                Open Subnet Calc <span class="ml-2 transform group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </a>
+        </div>
+
+        <div class="group bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-md transition-all duration-200 hover:-translate-y-1 hover:border-indigo-500 hover:shadow-indigo-500/10">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                V
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-white group-hover:text-emerald-400 transition-colors">VLSM Calculator</h3>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">Design complex variable-length subnets. Enter host requirements and automatically map efficient address hierarchies.</p>
+            <a href="/vlsm-calculator" class="inline-flex items-center text-sm font-semibold text-emerald-400 group-hover:text-emerald-300">
+                Design Subnets <span class="ml-2 transform group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </a>
+        </div>
+
+        <div class="group bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-md transition-all duration-200 hover:-translate-y-1 hover:border-indigo-500 hover:shadow-indigo-500/10">
+            <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold mb-4 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                A
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-white group-hover:text-amber-400 transition-colors">Cisco ACL Generator</h3>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">Build clean, valid standard and extended Cisco Access Control Lists without formatting or syntax errors.</p>
+            <a href="/acl-generator" class="inline-flex items-center text-sm font-semibold text-amber-400 group-hover:text-amber-300">
+                Generate Commands <span class="ml-2 transform group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </a>
+        </div>
+
+        <div class="group bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-md transition-all duration-200 hover:-translate-y-1 hover:border-indigo-500 hover:shadow-indigo-500/10">
+            <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                W
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-white group-hover:text-purple-400 transition-colors">Wildcard Mask Calculator</h3>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">Invert subnet masks to Cisco wildcard configurations. Essential for configuring OSPF and EIGRP network blocks.</p>
+            <a href="/wildcard-calculator" class="inline-flex items-center text-sm font-semibold text-purple-400 group-hover:text-purple-300">
+                Invert Masks <span class="ml-2 transform group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </a>
+        </div>
+
+        <div class="group bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-md transition-all duration-200 hover:-translate-y-1 hover:border-indigo-500 hover:shadow-indigo-500/10">
+            <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold mb-4 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
+                01
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors">IP &harr; Binary Converter</h3>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">Visualize your IP addresses down to the raw bit level. Built specifically to help students ace CCNA exams.</p>
+            <a href="/ip-binary-converter" class="inline-flex items-center text-sm font-semibold text-cyan-400 group-hover:text-cyan-300">
+                Convert Decimal <span class="ml-2 transform group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<hr class="border-gray-800 my-16">
+
+<section class="max-w-4xl mx-auto bg-gray-800/40 p-8 rounded-2xl border border-gray-700/60 shadow-inner">
+    <div class="flex items-center space-x-3 mb-6">
+        <div class="w-2 h-6 bg-indigo-500 rounded"></div>
+        <h2 class="text-2xl font-bold text-white tracking-wide">Network Architecture Quick Guides</h2>
+    </div>
+    
+    <div class="space-y-8">
+        <article class="border-b border-gray-700/50 pb-6 last:border-0 last:pb-0">
+            <h3 class="text-xl font-semibold text-indigo-300 mb-2">How to Calculate Subnets</h3>
+            <p class="text-gray-400 text-base leading-relaxed">
+                To find the subnet parameters of any target IP address, convert both the host IP and the subnet mask to binary format. Perform a logical <strong>AND</strong> operation between them bit by bit. The output guarantees your precise <strong>Network Address</strong>. Inverting the mask bits and using a logical OR operation yields the exact <strong>Broadcast Address</strong>.
+            </p>
+        </article>
+
+        <article class="border-b border-gray-700/50 pb-6 last:border-0 last:pb-0">
+            <h3 class="text-xl font-semibold text-emerald-300 mb-2">Understanding VLSM (Variable Length Subnet Masking)</h3>
+            <p class="text-gray-400 text-base leading-relaxed">
+                VLSM optimizes your architectural network allocations by allowing variable mask spaces within a singular topology layout. The golden architectural rule of VLSM deployment is simple: <strong>always organize your host counts from largest requirement down to smallest</strong> before dividing addresses to eliminate potential interface IP overlaps.
+            </p>
+        </article>
+
+        <article>
+            <h3 class="text-xl font-semibold text-amber-300 mb-2">Cisco ACL Implementation Best Practices</h3>
+            <p class="text-gray-400 text-base leading-relaxed">
+                When configuring Cisco access groups, remember standard rule positions. <strong>Standard ACLs</strong> (numbered 1-99) only track source attributes, meaning you should position them as near to the <strong>destination</strong> node as possible. Conversely, place advanced <strong>Extended ACLs</strong> (100-199) directly adjacent to the packet <strong>source</strong> to drop forbidden metrics before wasting transport link capacity.
+            </p>
+        </article>
+    </div>
+</section>
+{% endblock %}

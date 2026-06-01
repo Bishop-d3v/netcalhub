@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}IPv4 Subnet Calculator - NetCalcHub{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-gray-800 p-8 rounded-lg border border-gray-700 shadow-md">
+    <h2 class="text-2xl font-bold mb-6 text-white text-center">IPv4 Subnet Calculator</h2>
+    
+    <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="col-span-2">
+            <label class="block text-sm mb-2 font-medium">IP Address</label>
+            <input id="ip" type="text" value="192.168.1.1" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white outline-none focus:border-indigo-500">
+        </div>
+        <div>
+            <label class="block text-sm mb-2 font-medium">CIDR (ex: /24)</label>
+            <input id="cidr" type="number" value="24" min="1" max="32" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white outline-none focus:border-indigo-500">
+        </div>
+    </div>
+
+    <button onclick="calculateSubnet()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition">Calculate</button>
+
+    <div id="results" class="mt-8 hidden space-y-3 bg-gray-900 p-4 rounded border border-gray-700">
+        <div class="flex justify-between"><span class="text-gray-400">Network Address:</span> <span id="netAddr" class="font-mono text-indigo-300"></span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Subnet Mask:</span> <span id="subMask" class="font-mono text-white"></span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Broadcast Address:</span> <span id="broadAddr" class="font-mono text-indigo-300"></span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Usable Range:</span> <span id="usableRange" class="font-mono text-emerald-400"></span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Total Usable Hosts:</span> <span id="totalHosts" class="font-mono text-white"></span></div>
+    </div>
+</div>
+
+<script>
+function ipToLong(ip) {
+    return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0;
+}
+function longToIp(long) {
+    return [(long >>> 24) & 255, (long >>> 16) & 255, (long >>> 8) & 255, long & 255].join('.');
+}
+function calculateSubnet() {
+    const ipStr = document.getElementById('ip').value;
+    const cidr = parseInt(document.getElementById('cidr').value);
+    
+    if(!/^(?:\d{1,3}\.){3}\d{1,3}$/.test(ipStr) || cidr < 1 || cidr > 32) {
+        alert("Please enter a valid IP and CIDR (1-32)");
+        return;
+    }
+
+    const ipLong = ipToLong(ipStr);
+    const maskLong = (0xFFFFFFFF << (32 - cidr)) >>> 0;
+    const netLong = (ipLong & maskLong) >>> 0;
+    const broadLong = (netLong | ~maskLong) >>> 0;
+    const totalHosts = cidr === 32 ? 1 : cidr === 31 ? 2 : (broadLong - netLong - 1);
+
+    document.getElementById('netAddr').innerText = longToIp(netLong);
+    document.getElementById('subMask').innerText = longToIp(maskLong);
+    document.getElementById('broadAddr').innerText = longToIp(broadLong);
+    
+    if (cidr <= 30) {
+        document.getElementById('usableRange').innerText = `${longToIp(netLong + 1)} - ${longToIp(broadLong - 1)}`;
+    } else {
+        document.getElementById('usableRange').innerText = `${longToIp(netLong)} - ${longToIp(broadLong)}`;
+    }
+    document.getElementById('totalHosts').innerText = totalHosts.toLocaleString();
+    document.getElementById('results').classList.remove('hidden');
+}
+</script>
+{% endblock %}
